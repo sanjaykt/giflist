@@ -10,6 +10,8 @@ import { RedditProvider } from '../providers/reddit/reddit';
 import {Keyboard} from "@ionic-native/keyboard";
 import { HttpModule } from '@angular/http';
 import {HttpClientModule} from "@angular/common/http";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {IonicStorageModule} from "@ionic/storage";
 
 
 @NgModule({
@@ -20,7 +22,8 @@ import {HttpClientModule} from "@angular/common/http";
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -32,7 +35,8 @@ import {HttpClientModule} from "@angular/common/http";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider,
     RedditProvider,
-    Keyboard
+    Keyboard,
+    InAppBrowser
 
   ]
 })

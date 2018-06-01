@@ -32,8 +32,12 @@ export class RedditProvider {
 
     this.http.get(url).map(res => res.json()).subscribe(data => {
 
+      console.log(data);
+
       let stopIndex = this.posts.length;
       this.posts = this.posts.concat(data.data.children);
+
+     // console.log(this.posts);
 
       for (let i = this.posts.length - 1; i >= stopIndex; i--) {
         let post = this.posts[i];
@@ -49,10 +53,10 @@ export class RedditProvider {
           this.posts[i].data.url = post.data.url.replace('.gifv', '.mp4');
           this.posts[i].data.url = post.data.url.replace('.webm', '.mp4');
 
-          if (typeof (post.data.preview) != "undefined") {
+          if (typeof (post.data.preview) != 'undefined') {
             this.posts[i].data.snapshot = post.data.preview.images[0].source.url.replace(/&amp;/g, '&');
 
-            if (this.posts[i].data.snapshot == "undefined") {
+            if (this.posts[i].data.snapshot == 'undefined') {
               this.posts[i].data.snapshot = "";
             }
           }
@@ -89,6 +93,18 @@ export class RedditProvider {
     }, (err) => {
       console.log("subreddit doesn't exit!")
     });
+  }
+
+  nextPage() {
+    this.page++;
+    this.fetchData();
+  }
+
+  resetPosts() {
+    this.page = 1;
+    this.posts = [];
+    this.after = null;
+    this.fetchData();
   }
 
 
