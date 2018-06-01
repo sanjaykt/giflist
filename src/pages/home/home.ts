@@ -37,6 +37,8 @@ export class HomePage {
 
       if(subreddit != '' && subreddit) {
         this.redditService.subreddit = subreddit;
+        console.log("Observer executed...")
+        console.log(this.redditService.subreddit);
         this.changeSubreddit();
         this.keyboard.close();
       }
@@ -47,8 +49,8 @@ export class HomePage {
     })
   }
 
+  //constructor calls this method and get the data on the start
   loadSettings(): void {
-
     this.redditService.fetchData();
     // console.log("Implement loadSettings()");
   }
