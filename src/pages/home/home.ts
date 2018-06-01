@@ -7,6 +7,7 @@ import {FormControl} from "@angular/forms";
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 
 @IonicPage()
@@ -24,7 +25,8 @@ export class HomePage {
               public redditService: RedditProvider,
               public modalCtrl: ModalController,
               public platform: Platform,
-              public keyboard: Keyboard) {
+              public keyboard: Keyboard,
+              public inAppBrowser: InAppBrowser) {
 
     this.subredditControl = new FormControl();
   }
@@ -54,7 +56,8 @@ export class HomePage {
   }
 
   showComments(post): void {
-    console.log("TODO: Implement showCommetns()");
+    let browser = this.inAppBrowser.create('https://reddit.com' + post.data.permalink, '_system')
+    // console.log("Implement showCommetns()");
   }
 
   openSettings(): void {
@@ -62,15 +65,34 @@ export class HomePage {
   }
 
   playVideo(e, post): void {
-    console.log("TODO: Implement playVideo()");
+    let video = e.target;
+
+    if(!post.alreadyLoaded) {
+      post.showLoader = true;
+    }
+
+    if(video.paused){
+      video.play();
+
+      video.addEventListener("playing", (e)=>{
+        post.showLoader = false;
+        post.alreadyLoaded = true;
+      });
+    }
+    else {
+      video.paused();
+    }
+    // console.log("TImplement playVideo()");
   }
 
   changeSubreddit(): void {
-    console.log("TODO: Implement changeSubreddit()");
+    this.redditService.resetPosts();
+    // console.log("Implement changeSubreddit()");
   }
 
   loadMore(): void {
-    console.log("TODO: Implement loadMore()");
+    this.redditService.nextPage();
+    // console.log("Implement loadMore()");
   }
 
 }
